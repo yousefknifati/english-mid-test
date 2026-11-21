@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style>
+<title>Units 1–4 Mid Test</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: one exam sheet, parts stacked; a sticky score strip under the header keeps the total in view. */
+:root{
+  --paper:#F3F5FA; --sheet:#FFFFFF; --ink:#151B2F; --muted:#5A6379; --rule:#DADFEA;
+  --pen:#2346C8; --pen-soft:#E8EDFC; --mark:#FFE27A; --mark-ink:#151B2F;
+  --ok:#17784A; --ok-soft:#E2F3E9; --bad:#B3261E; --bad-soft:#FBE6E4;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#0E1220; --sheet:#161B2B; --ink:#E7EAF3; --muted:#9BA4BA; --rule:#2A3148;
+  --pen:#93A9FF; --pen-soft:#1E2747; --mark:#6B5A12; --mark-ink:#FFF4C9;
+  --ok:#5ACB8C; --ok-soft:#12301F; --bad:#FF8B7E; --bad-soft:#3A1916; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --paper:#0E1220; --sheet:#161B2B; --ink:#E7EAF3; --muted:#9BA4BA; --rule:#2A3148;
+  --pen:#93A9FF; --pen-soft:#1E2747; --mark:#6B5A12; --mark-ink:#FFF4C9;
+  --ok:#5ACB8C; --ok-soft:#12301F; --bad:#FF8B7E; --bad-soft:#3A1916; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--sheet)}
+.wrap{max-width:860px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+header.top{background:var(--sheet);border-bottom:1px solid var(--rule)}
+header.top .wrap{padding-block:36px 28px;display:grid;gap:14px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--pen)}
+h1{font-family:var(--f-display);font-weight:800;font-size:clamp(32px,6vw,48px);line-height:1.05;margin:0;text-wrap:balance;letter-spacing:-.01em}
+.meta{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);font-size:15px;margin:0;padding:0;list-style:none}
+.meta b{color:var(--ink);font-family:var(--f-mono);font-weight:700}
+.units{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.units li{border:1px solid var(--rule);border-radius:999px;padding:3px 12px;font-size:14px;color:var(--muted)}
+.units li span{font-family:var(--f-mono);color:var(--pen);margin-right:6px}
+.howto{margin:0;color:var(--muted);font-size:15px;max-width:62ch}
+
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--sheet) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+.bar .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding-block:10px}
+.total{display:flex;align-items:baseline;gap:8px;margin-right:auto;min-width:0}
+.total .num{font-family:var(--f-mono);font-weight:700;font-size:22px;font-variant-numeric:tabular-nums}
+.total .sub{color:var(--muted);font-size:14px}
+.btn{font:inherit;font-size:15px;border:1px solid var(--rule);background:var(--sheet);color:var(--ink);border-radius:8px;padding:7px 14px;cursor:pointer}
+.btn:hover{border-color:var(--pen)}
+.btn.primary{background:var(--pen);border-color:var(--pen);color:var(--sheet);font-weight:700}
+.btn.warn{border-color:var(--bad);color:var(--bad)}
+.btn:focus-visible,.opt:focus-visible,input:focus-visible{outline:3px solid color-mix(in srgb,var(--pen) 45%,transparent);outline-offset:2px}
+
+main .wrap{padding-block:28px 60px;display:grid;gap:28px}
+.part{background:var(--sheet);border:1px solid var(--rule);border-radius:14px;overflow:hidden}
+.part > header{padding:22px 24px 6px;display:grid;gap:6px}
+.part-no{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.part-no b{color:var(--pen)}
+.part h2{font-family:var(--f-display);font-weight:600;font-size:23px;line-height:1.2;margin:0;text-wrap:balance}
+.instr{margin:0;color:var(--muted);font-size:15.5px;max-width:65ch}
+.box{margin:12px 24px 4px;border:1.5px dashed var(--rule);border-radius:10px;padding:10px 14px;display:flex;flex-wrap:wrap;gap:6px 14px;font-weight:700}
+.box span{white-space:nowrap}
+
+ol.items{list-style:none;margin:0;padding:8px 0 0;counter-reset:q}
+ol.items > li{display:grid;grid-template-columns:2.4em minmax(0,1fr);gap:4px 6px;padding:14px 24px;border-top:1px solid var(--rule)}
+ol.items > li:first-child{border-top:0}
+.qn{font-family:var(--f-mono);font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums;padding-top:1px}
+.q{min-width:0}
+.q p{margin:0}
+.first{color:var(--muted);margin-bottom:6px!important}
+.key{display:inline-block;font-family:var(--f-mono);font-weight:700;font-size:13px;letter-spacing:.08em;border:1.5px solid var(--ink);border-radius:5px;padding:0 7px;margin:0 0 6px;line-height:1.7}
+u.ul{text-decoration-thickness:2px;text-underline-offset:3px;text-decoration-color:var(--pen)}
+em.it{font-style:italic;background:var(--mark);color:var(--mark-ink);padding:0 3px;border-radius:3px}
+
+input.gap{font:inherit;color:var(--pen);font-weight:700;background:transparent;border:0;border-bottom:2px solid var(--muted);border-radius:0;padding:0 4px;margin:0 2px;max-width:100%;min-width:6ch;line-height:1.4}
+input.gap::placeholder{color:var(--rule);font-weight:400}
+input.wide{display:block;width:100%;margin:8px 0 0;padding:6px 8px;border:1.5px solid var(--rule);border-radius:8px}
+.rlabel{display:block;font-size:13px;color:var(--muted);margin-top:8px}
+.rlabel + input.wide{margin-top:2px}
+
+.blank{display:inline-block;min-width:5ch;border-bottom:2px solid var(--muted);text-align:center;color:var(--pen);font-weight:700;padding:0 4px}
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.opt{font:inherit;font-size:15.5px;border:1.5px solid var(--rule);background:var(--sheet);color:var(--ink);border-radius:999px;padding:3px 14px;cursor:pointer}
+.opt[aria-pressed="true"]{border-color:var(--pen);background:var(--pen-soft);color:var(--pen);font-weight:700}
+
+li.ok{background:var(--ok-soft)}
+li.bad{background:var(--bad-soft)}
+li.ok .qn{color:var(--ok)}
+li.bad .qn{color:var(--bad)}
+li.ok input.gap{border-bottom-color:var(--ok);color:var(--ok)}
+li.bad input.gap{border-bottom-color:var(--bad);color:var(--bad)}
+li.ok input.wide{border-color:var(--ok)}
+li.bad input.wide{border-color:var(--bad)}
+.fb{grid-column:2;font-size:15px;display:none}
+.fb .ans{font-weight:700;color:var(--ok)}
+.fb .note{color:var(--muted);display:block}
+li.bad .fb, li.show .fb, li.ok.has-note .fb{display:block}
+li.ok .fb .ans-line{display:none}
+li.show.ok .fb .ans-line{display:inline}
+
+.part > footer{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:14px 24px;border-top:1px solid var(--rule);background:color-mix(in srgb,var(--paper) 55%,var(--sheet))}
+.pscore{font-family:var(--f-mono);font-weight:700;font-variant-numeric:tabular-nums;color:var(--muted)}
+.pscore.done{color:var(--ink)}
+
+.endnote{color:var(--muted);font-size:14px;text-align:center;margin:0}
+
+@media (max-width:560px){
+  body{font-size:16px}
+  .part > header,.part > footer{padding-left:16px;padding-right:16px}
+  .box{margin-left:16px;margin-right:16px}
+  ol.items > li{padding:12px 16px;grid-template-columns:2em minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:no-preference){ li{transition:background-color .25s ease} }
+</style>
+
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="eyebrow">Advanced · Grammar &amp; vocabulary · Practice paper</div>
+    <h1>Mid Test: Units 1–4</h1>
+    <ul class="meta">
+      <li><b>9</b> parts</li>
+      <li><b id="maxMarks">96</b> marks</li>
+      <li>Suggested time <b>75</b> min</li>
+      <li>No listening or writing</li>
+    </ul>
+    <ul class="units" aria-label="Units covered">
+      <li><span>1</span>Cities</li>
+      <li><span>2</span>Relationships</li>
+      <li><span>3</span>Culture and identity</li>
+      <li><span>4</span>Politics</li>
+    </ul>
+    <p class="howto">Type or choose your answers, then press <b>Check part</b> to mark each part. Short forms and full forms both count: <i>don't</i> = <i>do not</i>. Your answers stay saved in this browser.</p>
+  </div>
+</header>
+
+<div class="bar">
+  <div class="wrap">
+    <div class="total" aria-live="polite"><span class="num" id="totalNum">0 / 96</span><span class="sub" id="totalSub">No parts checked yet</span></div>
+    <button class="btn primary" id="checkAll" type="button">Check all</button>
+    <button class="btn" id="showAll" type="button">Show answers</button>
+    <button class="btn" id="resetAll" type="button">Reset</button>
+  </div>
+</div>
+
+<main>
+  <div class="wrap" id="paper"></div>
+</main>
+
+<script>
+/* ---------- Test content ---------- */
+const PARTS = [
+{ id:1, title:"Right form", type:"gap",
+  instr:"Complete each sentence with the correct form of the word in brackets.",
+  items:[
+  {t:"He can be incredibly ___ (snob) about restaurants. Only the most expensive ones will do.", a:["snobbish","snobby"], n:"snob = noun (a person). snobbish = adjective."},
+  {t:"It's her sheer ___ (arrogant) that I can't stand. She thinks she knows it all.", a:["arrogance"], n:"After 'her sheer' you need a noun."},
+  {t:"His ___ (stubborn) drives me crazy. He never admits he's wrong.", a:["stubbornness"], n:"Noun: stubborn + -ness (double n)."},
+  {t:"She's a very ___ (principle) woman who always stands up for what she believes in.", a:["principled"]},
+  {t:"Everything here is so ___ (bureaucracy). You need a permit for absolutely everything.", a:["bureaucratic"]},
+  {t:"The charity helps children from ___ (deprive) backgrounds get into university.", a:["deprived"], n:"deprived background / area = poor, lacking basic things."},
+  {t:"He's prone to getting into pointless ___ (confront) with his neighbours.", a:["confrontations","confrontation"]},
+  {t:"She was a highly ___ (influence) figure in the women's rights movement.", a:["influential"]},
+  {t:"I'm against the new law. I think it's totally ___ (work) in practice.", a:["unworkable"], n:"unworkable = impossible to make work in practice."},
+  {t:"The ___ (emerge) of online shopping has hit small local shops hard.", a:["emergence"]}
+  ]},
+{ id:2, title:"Change the underlined words", type:"replace", mark:"u",
+  instr:"Rewrite only the underlined part, using the word in the box. Type your new words for the underlined part.",
+  items:[
+  {t:"My sister [[deals with problems calmly and never gets stressed]].", k:"STRIDE", a:["takes everything in her stride","takes things in her stride","takes it all in her stride","takes everything in stride","takes it in her stride","just takes everything in her stride"]},
+  {t:"My brother and I [[disagree]] about most political issues.", k:"EYE", a:["do not see eye to eye","never see eye to eye","rarely see eye to eye"]},
+  {t:"The nurse chatted to me and [[made me feel relaxed]] before the operation.", k:"EASE", a:["put me at ease","put me at my ease","set me at ease","set me at my ease"]},
+  {t:"My two neighbours [[aren't talking to each other]] at the moment.", k:"TERMS", a:["are not on speaking terms","are no longer on speaking terms"]},
+  {t:"He never [[does his fair share of the work]], which annoys the rest of the team.", k:"WEIGHT", a:["pulls his weight"]},
+  {t:"She's always [[criticising me to other people when I'm not there]].", k:"BACK", a:["going behind my back","going behind my back and criticising me","talking behind my back"]},
+  {t:"The noise from the building site really [[annoys me]].", k:"NERVES", a:["gets on my nerves"]},
+  {t:"There's [[a really exciting atmosphere in]] the city at night.", k:"BUZZ", a:["a real buzz about","a real buzz in","a buzz about","a real buzz around"]},
+  {t:"He keeps [[giving me contradictory signals]]. I can't tell if he likes me or not.", k:"MIXED", a:["sending me mixed messages","giving me mixed messages","sending me mixed signals","giving me mixed signals"]},
+  {t:"[[In general]], people here are very friendly and welcoming.", k:"LARGE", a:["by and large"], n:"by and large = a binomial: the order never changes."}
+  ]},
+{ id:3, title:"Rewrite with a similar meaning", type:"kwt",
+  instr:"Complete the second sentence so it has a similar meaning to the first. Use the word given and do not change it. Use between two and five words.",
+  items:[
+  {s:"When I was little, my grandmother often told us stories before bed.", k:"WOULD", t:"When I was little, my grandmother ___ stories before bed.", a:["would often tell us","would tell us","'d often tell us","'d tell us","often would tell us"], n:"would + verb = a repeated action in the past (like used to)."},
+  {s:"In my opinion, she's far too negative about everything.", k:"SAY", t:"I ___ far too negative about everything.", a:["would say she is","would say she's","'d say she is","'d say she's","would say that she is","would say that she's","'d say that she's"], n:"I'd say … = a softer way to give your opinion."},
+  {s:"The town has changed enormously since the factory closed.", k:"UNDERGONE", t:"The town ___ since the factory closed.", a:["has undergone enormous changes","has undergone huge changes","has undergone massive changes","has undergone big changes","has undergone major changes","has undergone great changes"], n:"undergo – underwent – undergone. No preposition after it."},
+  {s:"They built the airport before the new mayor took office.", k:"ALREADY", t:"By the time the new mayor took office, the airport ___.", a:["had already been built"], n:"Past perfect passive: something finished before another past event."},
+  {s:"The lack of affordable housing really worries me.", k:"WHAT", t:"___ is the lack of affordable housing.", a:["what really worries me","what worries me","what worries me most","what really worries me most","what worries me the most"], n:"Cleft sentence: What + clause + is + the focus."},
+  {s:"At weekends I only want to sleep.", k:"ALL", t:"At weekends, ___ is sleep.", a:["all i want to do","all i really want to do","all that i want to do","all i wanna do"], n:"All I want to do is + bare infinitive."},
+  {s:"People's attitudes need to change, not the laws.", k:"IT", t:"___ need to change, not the laws.", a:["it is people's attitudes that","it's people's attitudes that","it is people's attitudes which","it's people's attitudes which"], n:"Cleft sentence: It is / It's + focus + that …"},
+  {s:"They refused to negotiate, so we're on strike now.", k:"WOULD", t:"If they had agreed to negotiate, we ___ on strike now.", a:["would not be","would not still be","would not be going","would not be out"], n:"Mixed conditional: past condition (had + p.p.) → present result (would + be)."},
+  {s:"I only voted because my friend reminded me.", k:"VOTED", t:"I ___ if my friend hadn't reminded me.", a:["would not have voted","would never have voted","might not have voted","probably would not have voted","would probably not have voted"], n:"Third conditional: would have + past participle."},
+  {s:"The plan will work, but only if people support it.", k:"LONG", t:"The plan will work ___ support it.", a:["as long as people","so long as people","as long as the people","as long as everyone","only as long as people"], n:"as long as = only if."}
+  ]},
+{ id:4, title:"Correct verb form", type:"gap",
+  instr:"Complete each sentence with the correct form of the verb in brackets.",
+  items:[
+  {t:"Since it opened in 2010, the museum ___ (attract) millions of visitors.", a:["has attracted","has been attracting"], n:"Since + a point in time → present perfect."},
+  {t:"By the end of this decade, the government ___ (invest) £5 billion in public transport.", a:["will have invested"], n:"By + future time → future perfect."},
+  {t:"Until the 1980s, the city's economy ___ (dominate) by steel and shipbuilding.", a:["had been dominated","was dominated"]},
+  {t:"___ (clear) the slums, the council then built a huge public park.", a:["having cleared"], n:"Perfect participle: the first action was finished before the second."},
+  {t:"If the previous mayor ___ (not / secure) the funding, the project would never have started.", a:["had not secured"], n:"Third conditional: if + past perfect."},
+  {t:"When he was a teenager, he ___ (often / get) into fights at school.", a:["would often get","'d often get","often used to get","used to often get","often got"], n:"Past habit: would often + verb."},
+  {t:"I asked him to change desks, but he just ___ (not). He refused point blank.", a:["would not"], n:"wouldn't = refused to (past)."},
+  {t:"If I ___ (hear) anything about it, I would've told you.", a:["had heard","'d heard"]},
+  {t:"If it hadn't been for my teacher, I ___ (not / study) English at university now.", a:["would not be studying"], n:"Mixed conditional: past condition → result now (would be + -ing)."},
+  {t:"The old buildings ___ (neglect) for decades before the council finally took action.", a:["had been neglected"], n:"Past perfect passive + 'for decades before …'."}
+  ]},
+{ id:5, title:"Choose the correct verb", type:"choice",
+  instr:"Choose the verb that best completes each sentence.",
+  items:[
+  {t:"The new tax could ___ people from starting their own businesses.", o:["discourage","undermine","trigger"], c:0, n:"discourage someone from doing something."},
+  {t:"A sudden rise in fuel prices could ___ a wave of protests.", o:["benefit","trigger","reduce"], c:1},
+  {t:"The government hopes the new factory will ___ the local economy.", o:["compound","devastate","boost"], c:2},
+  {t:"The scandal has seriously ___ public trust in the police.", o:["undermined","boosted","led"], c:0},
+  {t:"Can you ___ the table? Dinner's almost ready.", o:["load","lay","sweep"], c:1},
+  {t:"I need to ___ the dishwasher before we go out.", o:["load","flush","thread"], c:0},
+  {t:"She ___ out the wet cloth and hung it up to dry.", o:["rinsed","soaked","wrung"], c:2},
+  {t:"He ___ at me angrily from across the room.", o:["gazed","glared","giggled"], c:1, n:"glare = look angrily. gaze = look with wonder."},
+  {t:"The old man ___ along the beach, enjoying the sunset.", o:["strolled","staggered","raced"], c:0, n:"stroll = walk slowly, for pleasure."},
+  {t:"She ___ something under her breath, but I didn't catch it.", o:["screamed","chuckled","muttered"], c:2},
+  {t:"Several ministers were accused of trying to ___ the election.", o:["cast","rig","call"], c:1, n:"rig an election = change the result dishonestly."},
+  {t:"After weeks of talks, the parties finally ___ a consensus.", o:["reached","won","claimed"], c:0}
+  ]},
+{ id:6, title:"Choose the correct word", type:"choice",
+  instr:"Choose the word that correctly completes each sentence.",
+  items:[
+  {t:"He's a complete ___. He only talks to people with money.", o:["snob","snobbish"], c:0, n:"a + noun: a snob."},
+  {t:"She's ___ bitchy about her colleagues.", o:["real","really"], c:1, n:"really (adverb) + adjective."},
+  {t:"He's very ___. He thinks everyone has a hidden agenda.", o:["cynic","cynical"], c:1},
+  {t:"She's a bit of a ___. She makes life difficult for everyone.", o:["pain","painful"], c:0},
+  {t:"He's got a real ___ streak. You'll never change his mind.", o:["stubbornness","stubborn"], c:1},
+  {t:"It's a very ___ society. Religion plays almost no role in public life.", o:["conservative","secular"], c:1},
+  {t:"In some professions, women are still looked ___ on.", o:["down","up"], c:0, n:"look down on = think you're better than someone."},
+  {t:"It's very much live and let live here. People don't like to ___.", o:["conform","interfere"], c:1},
+  {t:"They won 80% of the seats. It was a ___ victory.", o:["narrow","landslide","hollow"], c:1},
+  {t:"What concerns me most is the ___ of crime in the area.", o:["number","amount"], c:1, n:"crime is uncountable → amount."},
+  {t:"Since the factory closed, the whole area has become run-___.", o:["down","out"], c:0},
+  {t:"Me? Win the lottery? Chance would be a ___ thing!", o:["fine","good"], c:0}
+  ]},
+{ id:7, title:"Complete with one word", type:"gap",
+  instr:"Write ONE word in each space.",
+  items:[
+  {t:"I've been learning English on and ___ for about five years.", a:["off"]},
+  {t:"I thought long and ___ before accepting the job.", a:["hard"]},
+  {t:"I'm sick and ___ of the constant traffic noise.", a:["tired"]},
+  {t:"After the earthquake struck, there was a total breakdown of law and ___.", a:["order"]},
+  {t:"Living in the city centre is fun, but it's hard to find any peace and ___.", a:["quiet"]},
+  {t:"She loves being the centre ___ attention.", a:["of"]},
+  {t:"Don't make such a fuss. It's ___ big thing.", a:["no"]},
+  {t:"I always check my emails first ___ in the morning.", a:["thing"]},
+  {t:"What with one thing and ___, I never finished the report.", a:["another"]},
+  {t:"The government brought ___ new restrictions on car use.", a:["in"]},
+  {t:"Once he's made up his mind, he never backs ___, even when he's wrong.", a:["down"]},
+  {t:"She's prone ___ forgetting things, so remind her the day before.", a:["to"]}
+  ]},
+{ id:8, title:"Replace the words in italics", type:"replace", mark:"i",
+  instr:"Replace the words in italics with the correct form of a verb from the box. Type your new words for the part in italics.",
+  box:["undergo","flourish","pour","neglect","impose","demolish","soar","initiate","spark","grip"],
+  items:[
+  {t:"The hospital [[has gone through]] major changes in the last decade.", a:["has undergone"]},
+  {t:"House prices [[went up very quickly]] in the early 2000s.", a:["soared"]},
+  {t:"The council [[knocked down]] the old flats to build a shopping centre.", a:["demolished"]},
+  {t:"The government [[has spent huge amounts of money on]] the transport system.", a:["has poured money into","has poured millions into","has poured huge amounts of money into","has poured a lot of money into","has poured billions into"], re:"^has poured .+ into$"},
+  {t:"Since the new mayor arrived, small businesses [[have been doing really well]].", a:["have flourished","have been flourishing"]},
+  {t:"Rural areas [[haven't received enough care or attention]] for years.", a:["have been neglected"]},
+  {t:"The authorities [[introduced]] strict limits on water use during the drought.", a:["imposed"]},
+  {t:"The new mayor [[started]] an ambitious project to clean up the river.", a:["initiated"]},
+  {t:"News of the factory closure [[caused]] angry protests across the region.", a:["sparked"]},
+  {t:"In the 1990s, the whole country [[was badly affected by]] a terrible recession.", a:["was gripped by"]}
+  ]},
+{ id:9, title:"Complete from the box and add a word", type:"gap",
+  instr:"Complete each sentence with a verb from the box. Put it in the correct form and add ONE more word to make a phrasal verb.",
+  box:["sort","narrow","end","sound","back","set","lighten","knock","bring","stick"],
+  items:[
+  {t:"We really need to ___ our differences before the meeting.", a:["sort out"]},
+  {t:"We've ___ the list of candidates to just three.", a:["narrowed down"]},
+  {t:"If you keep spending money like that, you'll ___ in serious debt.", a:["end up"]},
+  {t:"Let's ___ the board members before we announce anything.", a:["sound out"]},
+  {t:"He was clearly in the wrong, but he refused to ___.", a:["back down"]},
+  {t:"My uncle ___ his own company when he was only 22.", a:["set up"]},
+  {t:"You're far too serious! You need to ___ a bit.", a:["lighten up"]},
+  {t:"They're planning to ___ the old stadium and build flats.", a:["knock down"]},
+  {t:"The government is going to ___ new laws to cut pollution.", a:["bring in"]},
+  {t:"Whatever happens, you should always ___ your principles.", a:["stick to"]}
+  ]}
+];
+
+/* ---------- Marking logic (pure) ---------- */
+function canon(s){
+  s = String(s || "").toLowerCase().replace(/[’‘`´]/g,"'").replace(/\s+/g," ").trim();
+  s = s.replace(/\bwon't\b/g,"will not").replace(/\bcan't\b/g,"cannot").replace(/\bshan't\b/g,"shall not")
+       .replace(/n't\b/g," not").replace(/'re\b/g," are").replace(/'ve\b/g," have").replace(/'m\b/g," am").replace(/'ll\b/g," will")
+       .replace(/\bcan not\b/g,"cannot");
+  s = s.replace(/^[\s"'.,!?;:]+(?=[a-z])/,"").replace(/[\s.,!?;:"]+$/,"");
+  s = s.replace(/\bwould've\b/g,"would have");
+  return s.replace(/\s+/g," ").trim();
+}
+function isCorrect(item, val){
+  if (item.o) return val === item.c;
+  let v = canon(val);
+  if (!v) return false;
+  const tries = [v];
+  if (item.t){
+    const pre = canon(item.t.split("___")[0]);
+    if (pre && v.startsWith(pre + " ")) tries.push(v.slice(pre.length + 1));
+    if (pre === "i" && v.startsWith("i'")) tries.push(canon(v.slice(1)));
+  }
+  return tries.some(t => item.a.some(x => canon(x) === t) || (item.re && new RegExp(item.re).test(t)));
+}
+function shownAnswer(item){ return item.o ? item.o[item.c] : item.a[0]; }
+function totalMarks(){ return PARTS.reduce((n,p)=>n+p.items.length,0); }
+
+/* ---------- Page ---------- */
+const KEY = "midtest-units1-4-v1";
+let state = {};
+const checked = {};
+let revealed = false;
+
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function load(){ try { const r = localStorage.getItem(KEY); if (r) state = JSON.parse(r) || {}; } catch(e){ state = {}; } }
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){} }
+
+function gapWidth(item){
+  const longest = Math.max(...item.a.map(x => x.length));
+  return Math.min(Math.max(longest + 2, 7), 30);
+}
+function fbHTML(item){
+  const note = item.n ? `<span class="note">${esc(item.n)}</span>` : "";
+  return `<div class="fb"><span class="ans-line">Answer: <span class="ans">${esc(shownAnswer(item))}</span></span>${note}</div>`;
+}
+function itemHTML(part, item, i){
+  const id = `p${part.id}q${i+1}`;
+  const label = `Part ${part.id}, question ${i+1}`;
+  let body = "";
+  if (part.type === "gap"){
+    const [pre, post] = item.t.split("___");
+    body = `<p>${esc(pre)}<input class="gap" id="${id}" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="${label}" style="width:${gapWidth(item)}ch">${esc(post)}</p>`;
+  } else if (part.type === "kwt"){
+    const [pre, post] = item.t.split("___");
+    body = `<p class="first">${esc(item.s)}</p><span class="key">${esc(item.k)}</span><p>${esc(pre)}<input class="gap" id="${id}" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="${label}" style="width:${gapWidth(item)}ch">${esc(post)}</p>`;
+  } else if (part.type === "replace"){
+    const tag = part.mark === "u" ? ["<u class=\"ul\">","</u>"] : ["<em class=\"it\">","</em>"];
+    const sent = esc(item.t).replace("[[", tag[0]).replace("]]", tag[1]);
+    const key = item.k ? `<span class="key">${esc(item.k)}</span>` : "";
+    body = `${key}<p>${sent}</p><label class="rlabel" for="${id}">New words for the ${part.mark === "u" ? "underlined" : "italic"} part</label><input class="gap wide" id="${id}" type="text" autocomplete="off" autocapitalize="off" spellcheck="false">`;
+  } else if (part.type === "choice"){
+    const [pre, post] = item.t.split("___");
+    const opts = item.o.map((o,j)=>`<button type="button" class="opt" data-id="${id}" data-j="${j}" aria-pressed="false">${esc(o)}</button>`).join("");
+    body = `<p>${esc(pre)}<span class="blank" id="${id}-blank">&nbsp;</span>${esc(post)}</p><div class="opts" role="group" aria-label="${label} options">${opts}</div>`;
+  }
+  return `<li id="${id}-li" class="${item.n ? "has-note" : ""}"><span class="qn">${i+1}</span><div class="q">${body}</div>${fbHTML(item)}</li>`;
+}
+function partHTML(part){
+  const box = part.box ? `<div class="box" aria-label="Word box">${part.box.map(w=>`<span>${esc(w)}</span>`).join("")}</div>` : "";
+  return `<section class="part" id="part-${part.id}">
+    <header><div class="part-no"><b>Part ${part.id}</b> · ${part.items.length} marks</div><h2>${esc(part.title)}</h2><p class="instr">${esc(part.instr)}</p></header>
+    ${box}
+    <ol class="items">${part.items.map((it,i)=>itemHTML(part,it,i)).join("")}</ol>
+    <footer><button class="btn primary" type="button" data-check="${part.id}">Check part ${part.id}</button><span class="pscore" id="ps${part.id}">Not checked</span></footer>
+  </section>`;
+}
+
+function setChoice(id, j){
+  state[id] = j; save();
+  document.querySelectorAll(`.opt[data-id="${id}"]`).forEach(b => b.setAttribute("aria-pressed", String(Number(b.dataset.j) === j)));
+  const part = PARTS.find(p => id.startsWith(`p${p.id}q`));
+  const item = part.items[Number(id.split("q")[1]) - 1];
+  document.getElementById(`${id}-blank`).textContent = item.o[j];
+}
+function clearMark(id){
+  const li = document.getElementById(`${id}-li`);
+  li.classList.remove("ok","bad");
+  const pid = Number(id.slice(1).split("q")[0]);
+  if (checked[pid]){ checked[pid] = false; document.getElementById(`ps${pid}`).textContent = "Changed – check again"; document.getElementById(`ps${pid}`).classList.remove("done"); updateTotal(); }
+}
+function checkPart(part){
+  let score = 0;
+  part.items.forEach((item,i)=>{
+    const id = `p${part.id}q${i+1}`;
+    const ok = isCorrect(item, state[id]);
+    if (ok) score++;
+    const li = document.getElementById(`${id}-li`);
+    li.classList.toggle("ok", ok); li.classList.toggle("bad", !ok);
+  });
+  checked[part.id] = score;
+  const ps = document.getElementById(`ps${part.id}`);
+  ps.textContent = `${score} / ${part.items.length}`; ps.classList.add("done");
+  updateTotal();
+}
+function updateTotal(){
+  const done = PARTS.filter(p => checked[p.id] !== undefined && checked[p.id] !== false);
+  const score = done.reduce((n,p)=>n + checked[p.id], 0);
+  const max = done.reduce((n,p)=>n + p.items.length, 0);
+  document.getElementById("totalNum").textContent = `${score} / ${totalMarks()}`;
+  document.getElementById("totalSub").textContent = done.length === 0 ? "No parts checked yet"
+    : done.length === PARTS.length ? `All parts checked · ${Math.round(score / totalMarks() * 100)}%`
+    : `${done.length} of ${PARTS.length} parts checked · ${score} of ${max} so far`;
+}
+function setReveal(on){
+  revealed = on;
+  document.querySelectorAll("ol.items > li").forEach(li => li.classList.toggle("show", on));
+  document.getElementById("showAll").textContent = on ? "Hide answers" : "Show answers";
+}
+
+function init(){
+  load();
+  const paper = document.getElementById("paper");
+  paper.innerHTML = PARTS.map(partHTML).join("") + `<p class="endnote">Based on the vocabulary and grammar of Units 1–4 of the Advanced coursebook. All sentences are new practice items.</p>`;
+  document.getElementById("maxMarks").textContent = totalMarks();
+  document.getElementById("totalNum").textContent = `0 / ${totalMarks()}`;
+
+  PARTS.forEach(part => part.items.forEach((item,i)=>{
+    const id = `p${part.id}q${i+1}`;
+    if (item.o){ if (typeof state[id] === "number") setChoice(id, state[id]); }
+    else {
+      const inp = document.getElementById(id);
+      if (typeof state[id] === "string") inp.value = state[id];
+      inp.addEventListener("input", () => { state[id] = inp.value; save(); clearMark(id); });
+      inp.addEventListener("keydown", e => { if (e.key === "Enter"){ e.preventDefault(); checkPart(part); } });
+    }
+  }));
+  paper.addEventListener("click", e => {
+    const opt = e.target.closest(".opt");
+    if (opt){ setChoice(opt.dataset.id, Number(opt.dataset.j)); clearMark(opt.dataset.id); return; }
+    const chk = e.target.closest("[data-check]");
+    if (chk){ checkPart(PARTS.find(p => p.id === Number(chk.dataset.check))); }
+  });
+  document.getElementById("checkAll").addEventListener("click", () => PARTS.forEach(checkPart));
+  document.getElementById("showAll").addEventListener("click", () => setReveal(!revealed));
+
+  const reset = document.getElementById("resetAll");
+  let armed = null;
+  reset.addEventListener("click", () => {
+    if (!armed){
+      reset.textContent = "Tap again to clear all"; reset.classList.add("warn");
+      armed = setTimeout(() => { armed = null; reset.textContent = "Reset"; reset.classList.remove("warn"); }, 3500);
+      return;
+    }
+    clearTimeout(armed); armed = null; reset.textContent = "Reset"; reset.classList.remove("warn");
+    state = {}; save();
+    PARTS.forEach(p => { delete checked[p.id]; const ps = document.getElementById(`ps${p.id}`); ps.textContent = "Not checked"; ps.classList.remove("done"); });
+    document.querySelectorAll("input.gap").forEach(i => i.value = "");
+    document.querySelectorAll(".opt").forEach(b => b.setAttribute("aria-pressed","false"));
+    document.querySelectorAll(".blank").forEach(b => b.innerHTML = "&nbsp;");
+    document.querySelectorAll("ol.items > li").forEach(li => li.classList.remove("ok","bad"));
+    setReveal(false); updateTotal();
+    window.scrollTo({top:0});
+  });
+}
+if (typeof document !== "undefined") init();
+</script>
+</body>
+</html>
